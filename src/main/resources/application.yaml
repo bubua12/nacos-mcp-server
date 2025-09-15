@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: nacos-mcp-server
+
+  main:
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        name: nacos-mcp-server
+        version: 0.0.1
+        sse-endpoint: /sse
+        instructions: "Nacos MCP AI Tools"
+
+nacos:
+  server: http://192.168.1.242:8848
+
+debug: true
