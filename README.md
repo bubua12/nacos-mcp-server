@@ -1,11 +1,11 @@
-# 🚀 Nacos MCP 服务器
+# 🚀 Nacos MCP Server
 
-<img src="https://img.shields.io/badge/Java-21-orange.svg" alt="Java Version">
-<img src="https://img.shields.io/badge/Spring%20Boot-3.4.4-green.svg" alt="Spring Boot">
-<img src="https://img.shields.io/badge/Spring%20AI-1.0.2-brightgreen.svg" alt="Spring AI">
-<img src="https://img.shields.io/badge/Nacos-2.4.3-blue.svg" alt="Nacos">
-<img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg" alt="Platform">
-<img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.4-green)
+![Spring AI](https://img.shields.io/badge/Spring%20AI-1.0.2-brightgreen)
+![Nacos](https://img.shields.io/badge/Nacos-2.4.3-blue)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 
 **专为与 Nacos 集群无缝交互和自动化而设计的强大 MCP（模型上下文协议）服务器**
