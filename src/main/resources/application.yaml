@@ -10,9 +10,18 @@ spring:
         name: nacos-mcp-server
         version: 0.0.1
         sse-endpoint: /sse
-        instructions: "Nacos MCP AI Tools"
+        instructions: "Nacos MCP AI Tools - 提供Nacos集群管理的AI工具"
 
 nacos:
   server: http://192.168.1.242:8848
+  username: nacos
+  password: nacos
 
+# 日志配置
+#logging:
+#  level:
+#    com.bubua12.mcp.nacos: DEBUG
+#    org.springframework.web.reactive.function.client: DEBUG
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 debug: true
