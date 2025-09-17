@@ -174,6 +174,45 @@ public class NacosMCPService {
 
 
     /**
+     * 对服务实例进行上线或者下线
+     *
+     * @param serviceName 服务名
+     * @param group 分组名称
+     * @param namespace 名称空间
+     * @param ip 实例IP
+     * @param port 实例端口
+     * @param enabled true=上线, false=下线
+     */
+    @Tool(description = "对服务的实例进行上线或者下线操作，根据传入的enabled来判断")
+    public String updateInstanceStatus(
+            @ToolParam(description = "服务名，如ms-gateway、service-product等") String serviceName,
+            @ToolParam(description = "分组名称，如：DEFAULT_GROUP、SEATA_GROUP，没有特殊说明则是DEFAULT_GROUP") String group,
+            @ToolParam(description = "名称空间，如：public、dev、prod等，没有特殊说明则是public") String namespace,
+            @ToolParam(description = "服务实例IP，必填") String ip,
+            @ToolParam(description = "服务实例的端口号，必填，结合服务实例IP进行操作") int port,
+            @ToolParam(description = "对服务进行上线还是下线，上线则为true，下线则为false") boolean enabled
+    ) {
+        log.debug("[服务实例上下线] 调用 updateInstanceStatus 方法，接收参数：serviceName: {}，group: {}，namespace: {}，ip: {}，port: {}，enabled: {}",
+                serviceName, group, namespace, ip, port, enabled);
+        return webClient.put()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/nacos/v2/ns/instance")
+                        .queryParam("serviceName", serviceName)
+                        .queryParam("group", group)
+                        .queryParam("namespace", getNamespaceId(namespace))
+                        .queryParam("ip", ip)
+                        .queryParam("port", port)
+                        .queryParam("enabled", enabled)
+                        .queryParam("accessToken", getToken())
+                        .build())
+                .exchangeToMono(response ->
+                        response.bodyToMono(String.class)
+                                .map(body -> "HTTP " + response.statusCode() + "\n" + body))
+                .block();
+    }
+
+
+    /**
      * 查询服务详情
      *
      * @param serviceName 服务维度的详情信息
