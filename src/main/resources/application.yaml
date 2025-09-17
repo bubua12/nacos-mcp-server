@@ -8,7 +8,7 @@ spring:
     mcp:
       server:
         name: nacos-mcp-server
-        version: 0.0.1
+        version: v2.4.3
         sse-endpoint: /sse
         instructions: "Nacos MCP AI Tools - 提供Nacos集群管理的AI工具"
 

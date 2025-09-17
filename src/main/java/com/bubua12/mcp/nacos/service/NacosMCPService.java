@@ -25,6 +25,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
+@SuppressWarnings("unused")
 public class NacosMCPService {
 
     private final WebClient webClient;
