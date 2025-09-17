@@ -465,7 +465,7 @@ public class NacosMCPService {
                     namespaceCache.put(nsName, nsId);
                 }
                 namespaceCache.put("public", ""); // public 特殊处理
-                log.info("✅ 已刷新 namespace 缓存: {}", namespaceCache);
+                log.info("已刷新 namespace 缓存: {}", namespaceCache);
             }
         } catch (Exception e) {
             log.error("刷新 namespace 缓存失败", e);

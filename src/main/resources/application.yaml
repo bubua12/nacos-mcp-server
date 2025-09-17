@@ -18,10 +18,10 @@ nacos:
   password: nacos
 
 # 日志配置
-#logging:
-#  level:
-#    com.bubua12.mcp.nacos: DEBUG
+logging:
+  level:
+    com.bubua12.mcp.nacos: DEBUG
 #    org.springframework.web.reactive.function.client: DEBUG
 #  pattern:
 #    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-debug: true
+#debug: true
