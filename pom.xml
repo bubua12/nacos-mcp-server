@@ -6,7 +6,7 @@
 
     <groupId>com.bubua12.mcp</groupId>
     <artifactId>nacos-mcp-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>v2.4.3</version>
 
     <properties>
         <spring-ai.version>1.0.2</spring-ai.version>
@@ -43,11 +43,18 @@
 
 
         <!-- Nacos Client -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.nacos</groupId>-->
-<!--            <artifactId>nacos-client</artifactId>-->
-<!--            <version>${nacos-client.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>${nacos-client.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.83_noneautotype</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
