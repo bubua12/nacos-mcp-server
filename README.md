@@ -19,31 +19,30 @@
 
 ### 📝 配置管理
 - 🗂️ **命名空间列表** - 列出所有可用的命名空间
-- 📋 **配置详情** - 查看指定命名空间下的详细配置信息
-- 🔍 **模糊查询** - 根据名称模式搜索配置
-- 🔎 **高级搜索** - 在集群中查找相关配置
+- 🌐 **命名空间详情** - 列出命名空间具体的详细信息
+- 📋 **配置列表** - 查看指定命名空间下的所有配置
+- 🔍 **配置详情** - 查看指定配置的详细信息
+- 🔎 **获取配置历史** - 查看指定配置的历史配置信息
 
 ### 🎯 服务管理
 - 📡 **服务发现** - 列出指定命名空间下的在线服务
-- 🔍 **服务搜索** - 高级服务搜索功能
-- 📊 **服务详情** - 查看注册 IP、元数据和服务信息
-- 🌐 **命名空间管理** - 全面的命名空间操作
-- ⚡ **服务状态** - 监控服务上下线状态，支持条件过滤
+- 🔍 **服务实例** - 查询指定服务的实例列表
+- 📊 **服务详情** - 查看服务信息详情
+- 🌐 **服务上下线** - 对服务实例进行上线或者下线
 
 ### 🖥️ 节点管理
-- 🏗️ **集群状态** - 实时集群节点状态监控
-- 📈 **健康检查** - 监控节点健康状况和可用性
+- 🏗️ **集群状态** - 实时集群节点状态监控、系统当前数据指标
+- 📈 **健康检查** - 查询当前节点健康状态
 - 🔧 **节点信息** - 详细的节点元数据和配置
+- ⚡ **客户端信息查看** - 查询客户端列表及具体的客户端信息
 
 ---
 
 ## 🏗️ 架构设计
 
-本项目基于 **Spring AI MCP Server** 和 **WebFlux** 响应式编程，提供：
+本项目基于 **Spring AI MCP Server**，提供：
 
-- **🔄 响应式架构** - 非阻塞 I/O 操作，性能更优
 - **🤖 AI 集成** - 内置大型语言模型交互支持
-- **🌐 RESTful APIs** - 轻松集成 Nacos REST 端点
 - **🔧 工具化设计** - 模块化工具系统，功能可扩展
 
 ---
@@ -70,6 +69,8 @@
    ```yaml
    nacos:
      server: http://your-nacos-server:8848
+     username: [your-nacos-username]
+     password: [your-nacos-password]
    ```
 
 3. **构建和运行**
@@ -80,7 +81,27 @@
 
 4. **访问 MCP 服务器**
    
-   服务器将在默认端口启动，SSE 端点地址为 `/sse`
+   服务器将在默认端口启动，SSE 端点地址为 `/sse`，mcp client连接完整地址为：IP:8080/sse
+
+5. **Docker部署**
+```yaml
+version: '3.9'
+
+services:
+  nacos-mcp-server:
+    image: bubua12/nacos-mcp-server:v2.4.3
+    container_name: nacos-mcp-server
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      NACOS_SERVER: "http://your-nacos-server:8848"
+      NACOS_USERNAME: "your-nacos-username"
+      NACOS_PASSWORD: "your-nacos-password"
+      APP_LOG_LEVEL: "DEBUG"
+      HTTP_LOG_LEVEL: "INFO"
+      JAVA_OPTS: "-Xms512m -Xmx1024m"
+```
 
 ---
 
@@ -92,53 +113,40 @@
 spring:
   application:
     name: nacos-mcp-server
+  main:
+    banner-mode: off
   ai:
     mcp:
       server:
         name: nacos-mcp-server
-        version: 0.0.1
+        version: v2.4.3
         sse-endpoint: /sse
-        instructions: "Nacos MCP AI Tools"
+        instructions: "Nacos MCP AI Tools - 提供Nacos集群管理的AI工具"
 
 nacos:
-  server: http://192.168.1.242:8848
+  server: ${NACOS_SERVER:http://192.168.1.242:8848}
+  username: ${NACOS_USERNAME:nacos}
+  password: ${NACOS_PASSWORD:nacos}
+
+logging:
+  level:
+    com.bubua12.mcp.nacos: ${APP_LOG_LEVEL:INFO}
+    org.springframework.web.reactive.function.client: ${HTTP_LOG_LEVEL:INFO}
 ```
 
 ### 环境变量
 
-| 变量名 | 描述 | 默认值 |
-|--------|------|--------|
+| 变量名 | 描述          | 默认值 |
+|--------|-------------|--------|
 | `NACOS_SERVER` | Nacos 服务器地址 | `http://localhost:8848` |
-| `NACOS_USERNAME` | Nacos 用户名 | `nacos` |
-| `NACOS_PASSWORD` | Nacos 密码 | `nacos` |
+| `NACOS_USERNAME` | Nacos 用户名   | `nacos` |
+| `NACOS_PASSWORD` | Nacos 密码    | `nacos` |
+| `APP_LOG_LEVEL` | 日志级别        | `INFO` |
+| `HTTP_LOG_LEVEL` | 日志级别    | `INFO` |
 
 ---
 
-## 🛠️ 可用工具
-
-### 📋 命名空间操作
-- `getNacosNamespaces()` - 获取所有可用的命名空间
-
-### 📄 配置操作  
-- `listNacosConfigByNamespace(namespace)` - 列出指定命名空间中的配置
-
-*更多工具正在持续添加中，敬请期待！*
-
 ---
-
-## 📊 API 示例
-
-### 获取所有命名空间
-```http
-GET /nacos/v1/console/namespaces
-Authorization: Basic bmFjb3M6bmFjb3M=
-```
-
-### 根据命名空间列出配置
-```http
-GET /nacos/v1/cs/configs?namespaceId={namespace}&pageNo=1&pageSize=10
-Authorization: Bearer {accessToken}
-```
 
 ---
 
@@ -166,7 +174,6 @@ nacos-mcp-server/
 1. 在 `NacosMetaService` 中创建新方法
 2. 使用 `@Tool` 注解并提供描述
 3. 使用 `@ToolParam` 进行参数文档化
-4. 在 `ToosConfig` 中注册工具
 
 示例：
 ```java
@@ -206,7 +213,7 @@ public Mono<String> getServiceDetails(
 
 ## 📞 技术支持
 
-- 📧 **邮箱**: bubua12@example.com
+- 📧 **邮箱**: wangty334752@gmail.com
 - 🐛 **问题反馈**: [GitHub Issues](https://github.com/your-username/nacos-mcp-server/issues)
 - 💬 **讨论交流**: [GitHub Discussions](https://github.com/your-username/nacos-mcp-server/discussions)
 
