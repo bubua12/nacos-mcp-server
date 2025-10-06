@@ -83,6 +83,19 @@
    
    服务器将在默认端口启动，SSE 端点地址为 `/sse`，mcp client连接完整地址为：IP:8080/sse
 
+   MCP连接配置：
+   ```json
+   {
+     "mcpServers": {
+       "nacos-mcp-server": {
+         "url": "http://192.168.31.127:8080/sse",
+         "disabled": false,
+         "autoApprove": []
+       }
+     }
+   }
+   ```
+
 5. **Docker部署**
 ```yaml
 version: '3.9'
